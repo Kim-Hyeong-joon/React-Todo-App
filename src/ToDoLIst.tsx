@@ -93,7 +93,8 @@ function ToDoList() {
           {...register("username", {
             required: "Username is required",
             validate: {
-              noNico: (value) => (value.includes("nico") ? "Hello" : true),
+              noNico: async (value) =>
+                value.includes("nico") ? "Hello" : true,
               noNick: (value) => (value.includes("nick") ? "Hello" : true),
             },
           })}

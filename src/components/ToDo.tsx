@@ -24,10 +24,12 @@ function ToDo({ text, category, id }: IToDo) {
   const onDeleteClick = () => {
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
-      return [
+      const newToDos = [
         ...oldToDos.slice(0, targetIndex),
         ...oldToDos.slice(targetIndex + 1),
       ];
+      localStorage.setItem("toDos", JSON.stringify(newToDos));
+      return newToDos;
     });
   };
   return (

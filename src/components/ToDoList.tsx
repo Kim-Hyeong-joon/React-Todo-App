@@ -1,10 +1,11 @@
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React, { useEffect } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Categories, categoryState, toDoSelector, toDoState } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
 function ToDoList() {
+  const [toDoArray, toDosModifier] = useRecoilState(toDoState);
   const toDos = useRecoilValue(toDoSelector);
   const [category, setCategory] = useRecoilState(categoryState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
@@ -14,6 +15,12 @@ function ToDoList() {
     setCategory(value as any);
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("toDos") !== null) {
+      const localToDos = JSON.parse(localStorage.getItem("toDos") || "");
+      toDosModifier(() => localToDos);
+    }
+  }, []);
   return (
     <div>
       <h1>To Dos</h1>
